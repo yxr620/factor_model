@@ -1,10 +1,9 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
 from sqdata import d
 from tqdm import tqdm
-from multiprocessing import current_process, Pool
+from multiprocessing import Pool
 
 def covert_name(stock_code:str) -> str:
     number = stock_code.split('.')[0]
@@ -70,9 +69,8 @@ def process_datapoint(args):
 
 
 def generate_data(date_group, date_key):
-
     args_list = [(date_group, date_key, i) for i in range(4, len(date_key) - 2)]
-    with Pool(processes=5) as pool:
+    with Pool(processes=15) as pool:
         pool.map(process_datapoint, args_list)
 
 
@@ -83,7 +81,6 @@ if __name__ == "__main__":
     # covert uquant name to normal name
     df['stock_code'] = [covert_name(stock_code) for stock_code in df['stock_code']]
     group = df.groupby('stock_code')
-    data = d.wsd(list(group.groups.keys()), "open", "2018-01-01", "2018-01-31")
 
     date_group = df.groupby('date')
     date_key = list(date_group.groups.keys())
