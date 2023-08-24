@@ -45,7 +45,7 @@ def process_datapoint(args):
     stock_list = list(stock_set)
     factor_list = []
     label_list = []
-    for stock_name in (stock_list):
+    for stock_name in tqdm(stock_list):
         # generate label T+1 to T+2
         T1 = data[stock_name][-2]
         T2 = data[stock_name][-1]
@@ -67,9 +67,9 @@ def process_datapoint(args):
     # fill nan with the value in front of nan
     # print(factor_list.shape)
     nan_indices = np.isnan(factor_list)
-    fill_values = np.roll(factor_list, 1, axis=0)
-    fill_values[0, :] = 0
-    factor_list[nan_indices] = np.where(nan_indices, fill_values, factor_list)[nan_indices]
+    factor_list[nan_indices] = 0
+
+    # print(np.isnan(factor_list).any())
 
     # concatentate data
     total_table = np.concatenate([stock_name_arr.reshape(-1, 1), date_list.reshape(-1, 1), label_list.reshape(-1, 1), factor_list], axis=1)
@@ -77,12 +77,12 @@ def process_datapoint(args):
 
 
 def generate_data(date_group, date_key):
-    args_list = [(date_group, date_key, i) for i in range(4, len(date_key) - 2)]
-    with Pool(processes=15) as pool:
-        pool.map(process_datapoint, args_list)
+    # args_list = [(date_group, date_key, i) for i in range(4, len(date_key) - 2)]
+    # with Pool(processes=15) as pool:
+    #     pool.map(process_datapoint, args_list)
 
-    # for i in range(4, len(date_key) - 2):
-    #     process_datapoint((date_group, date_key, i))
+    for i in range(4, len(date_key) - 2):
+        process_datapoint((date_group, date_key, i))
 
     # import concurrent.futures
     # # 创建一个线程池执行器

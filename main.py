@@ -26,17 +26,17 @@ def train(model, optimizer, train_loader, device):
     # print(f"epoch time: {end - start} seconds")
     return train_loss / len(train_loader)
 
-# python main.py --end 2018-06-31
-# python main.py --end 2018-12-32
-# python main.py --end 2019-06-31
-# python main.py --end 2019-12-32
-# python main.py --end 2020-06-31
-# python main.py --end 2020-12-32
-# python main.py --end 2021-06-31
-# python main.py --end 2021-12-32
-# python main.py --end 2022-06-31
-# python main.py --end 2022-12-32
-# python main.py --end 2023-06-31
+# python main.py --end 2018-06-31 --device cuda
+# python main.py --end 2018-12-32 --device cuda
+# python main.py --end 2019-06-31 --device cuda
+# python main.py --end 2019-12-32 --device cuda
+# python main.py --end 2020-06-31 --device cuda
+# python main.py --end 2020-12-32 --device cuda
+# python main.py --end 2021-06-31 --device cuda
+# python main.py --end 2021-12-32 --device cuda
+# python main.py --end 2022-06-31 --device cuda
+# python main.py --end 2022-12-32 --device cuda
+# python main.py --end 2023-06-31 --device cuda
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--end", type=str, help="end date", default="2018-06-31")
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     hidden_size = 30
     output_size = 1
     learning_rate = 0.0001
-    num_epochs = 50
+    num_epochs = 100
     batch_size = 1024
     num_layers = 1
 

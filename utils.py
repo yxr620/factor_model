@@ -56,13 +56,10 @@ class single_dataset(Dataset):
 
         self.feature = np.array(self.feature)
         self.target = np.array(self.target)
-        print(np.isnan(self.feature).any())
-        print(np.where(np.isnan(self.feature)))
         # the torch type must match the model type
         self.feature = torch.tensor(self.feature, dtype=torch.float32)
         self.target = torch.tensor(self.target, dtype=torch.float32)
         print(self.feature.shape)
-        exit()
 
     def load_file(self, file):
         day_data = np.loadtxt(file, dtype=str)
