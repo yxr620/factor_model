@@ -9,9 +9,14 @@ from tqdm import tqdm
 # get min datapoint [320 * 6]
 def get_feature(datapoint):
     # print(datapoint.shape)
-    info = [datapoint[0], datapoint[2]]
-    target = [datapoint[1].astype(np.double)]
-    feature = datapoint[7:].astype(np.double).reshape(84, 5).T
+    info = [datapoint[0], datapoint[1]]
+    target = [datapoint[2].astype(np.double)]
+    tmp = datapoint[3:].astype(np.double)
+    if np.isnan(tmp).any():
+        print(np.where(np.isnan(tmp)))
+        print(tmp)
+        print(info)
+    feature = datapoint[3:].astype(np.double).reshape(84, 5).T
     return info, feature, target
 
 def get_file_list(dir):
@@ -51,10 +56,13 @@ class single_dataset(Dataset):
 
         self.feature = np.array(self.feature)
         self.target = np.array(self.target)
+        print(np.isnan(self.feature).any())
+        print(np.where(np.isnan(self.feature)))
         # the torch type must match the model type
         self.feature = torch.tensor(self.feature, dtype=torch.float32)
         self.target = torch.tensor(self.target, dtype=torch.float32)
         print(self.feature.shape)
+        exit()
 
     def load_file(self, file):
         day_data = np.loadtxt(file, dtype=str)

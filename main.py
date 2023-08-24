@@ -45,9 +45,13 @@ if __name__ == "__main__":
 
 
     file_list_init = get_file_list('./data/daypoint/')
-    file_list = file_list_init
+    file_list = []
     test_end = args.end # '2018-06-31'
     device_name = args.device
+
+    for i in range (len(file_list_init)):
+        if file_list_init[i].split('/')[-1].split('.')[0] <= test_end:
+            file_list.append(file_list_init[i])
     file_list = file_list[:-2] # prevent data leaking
 
     train_len = int(len(file_list) * 4 / 5)
