@@ -52,9 +52,9 @@ def process_datapoint(args):
         label_list.append(T2 / T1 - 1)
         # 5 * 84
         stock_factor = []
-        for j in range(5):
+        for j in range(5): # get rid of the stock_code & date
             date_j_table = group_list[j].set_index('stock_code')
-            stock_factor.append(date_j_table.loc[stock_name].tolist())
+            stock_factor.append(date_j_table.loc[stock_name].tolist()[1:])
         # 5 * 84 -> 84 * 5 -> 420
         stock_factor = np.array(stock_factor).T.reshape(-1)
         factor_list.append(stock_factor)
@@ -70,7 +70,7 @@ def process_datapoint(args):
 
 def generate_data(date_group, date_key):
     args_list = [(date_group, date_key, i) for i in range(4, len(date_key) - 2)]
-    with Pool(processes=15) as pool:
+    with Pool(processes=4) as pool:
         pool.map(process_datapoint, args_list)
 
 
@@ -86,4 +86,4 @@ if __name__ == "__main__":
     date_key = list(date_group.groups.keys())
     date_key.sort()
 
-    generate_data(date_group, date_key)
+    generate_data(date_group, date_key[:100])
