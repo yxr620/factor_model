@@ -38,21 +38,21 @@ class single_dataset(Dataset):
         self.feature = []
         self.info = []
 
-        for file in tqdm(self.file_list):
-            day_data = np.loadtxt(file, dtype=str, delimiter=',')
-            for i in range(day_data.shape[0]):
-                info, feature, target = get_feature(day_data[i])
-                self.info.append(info)
-                self.feature.append(feature)
-                self.target.append(target)
+        # for file in tqdm(self.file_list):
+        #     day_data = np.loadtxt(file, dtype=str, delimiter=',')
+        #     for i in range(day_data.shape[0]):
+        #         info, feature, target = get_feature(day_data[i])
+        #         self.info.append(info)
+        #         self.feature.append(feature)
+        #         self.target.append(target)
 
-        # with Pool(processes=15) as pool:
-        #     results = pool.map(self.load_file, self.file_list)
+        with Pool(processes=5) as pool:
+            results = pool.map(self.load_file, self.file_list)
 
-        # for info_list, feature_list, target_list in results:
-        #     self.info.extend(info_list)
-        #     self.feature.extend(feature_list)
-        #     self.target.extend(target_list)
+        for info_list, feature_list, target_list in results:
+            self.info.extend(info_list)
+            self.feature.extend(feature_list)
+            self.target.extend(target_list)
 
         self.feature = np.array(self.feature)
         self.target = np.array(self.target)
@@ -62,7 +62,7 @@ class single_dataset(Dataset):
         print(self.feature.shape)
 
     def load_file(self, file):
-        day_data = np.loadtxt(file, dtype=str)
+        day_data = np.loadtxt(file, dtype=str, delimiter=',')
         info_list, feature_list, target_list = [], [], []
 
         for i in range(day_data.shape[0]):
