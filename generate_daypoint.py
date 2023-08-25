@@ -107,4 +107,4 @@ if __name__ == "__main__":
     date_key = list(date_group.groups.keys())
     date_key.sort()
 
-    generate_data(date_group, date_key)
+    generate_data(date_group, date_key[600:])
