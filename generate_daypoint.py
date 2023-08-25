@@ -77,12 +77,12 @@ def process_datapoint(args):
 
 
 def generate_data(date_group, date_key):
-    # args_list = [(date_group, date_key, i) for i in range(4, len(date_key) - 2)]
-    # with Pool(processes=15) as pool:
-    #     pool.map(process_datapoint, args_list)
+    args_list = [(date_group, date_key, i) for i in range(4, len(date_key) - 2)]
+    with Pool(processes=3) as pool:
+        pool.map(process_datapoint, args_list)
 
-    for i in range(4, len(date_key) - 2):
-        process_datapoint((date_group, date_key, i))
+    # for i in range(4, len(date_key) - 2):
+    #     process_datapoint((date_group, date_key, i))
 
     # import concurrent.futures
     # # 创建一个线程池执行器
